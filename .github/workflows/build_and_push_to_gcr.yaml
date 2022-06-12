@@ -119,7 +119,7 @@ jobs:
       run: echo "PRODUCTION_IMAGE_NAME=$(echo gcr.io/$PRODUCTION_GCR_PROJECT/${{ github.event.inputs.image_name }}:${{ github.event.inputs.image_tag }})" >> $GITHUB_ENV
 
   slack_production_success:
-    needs: build_staging
+    needs: build_production
     runs-on: ubuntu-latest
     if: ${{ always() && contains(join(needs.*.result, ','), 'success') }}
     
