@@ -39,8 +39,8 @@ jobs:
    steps:
 
     - name: debug
-      run: echo ${{ github.event.inputs.prd_image_build }}
-      
+      run: echo ${{ github.event.inputs.stg_image_build }}
+
     - name: checkout the project
       uses: actions/checkout@v2
 
