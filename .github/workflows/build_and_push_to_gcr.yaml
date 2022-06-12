@@ -55,7 +55,6 @@ jobs:
         project_id: $STAGING_GCR_PROJECT
         image_name: ${{ github.event.inputs.image_name }}
         image_tag:  ${{ github.event.inputs.image_tag }}
-      continue_on_error: true
 
     - name: set staging image name
       run: echo "STAGING_IMAGE_NAME=$(echo gcr.io/$STAGING_GCR_PROJECT/${{ github.event.inputs.image_name }}:${{ github.event.inputs.image_tag }})" >> $GITHUB_ENV
@@ -99,7 +98,6 @@ jobs:
         project_id: $PRODUCTION_GCR_PROJECT
         image_name: ${{ github.event.inputs.image_name }}
         image_tag:  ${{ github.event.inputs.image_tag }}
-      continue_on_error: true
 
     - name: set production image name
       run: echo "PRODUCTION_IMAGE_NAME=$(echo gcr.io/$PRODUCTION_GCR_PROJECT/${{ github.event.inputs.image_name }}:${{ github.event.inputs.image_tag }})" >> $GITHUB_ENV
