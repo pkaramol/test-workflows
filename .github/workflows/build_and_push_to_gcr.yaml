@@ -60,8 +60,10 @@ jobs:
     - name: build and push to staging gcr
       id: stg_img_build
       uses: RafikFarhad/push-to-gcr-github-action@v4
+      env:
+        STAGING_GCR_SA_BASE64: "$(echo '${{ secrets.STAGING_GCR_SA }}' | base64)"
       with:
-        gcloud_service_key: "${{ steps.base64-staging-gcr.outputs.STAGING_GCR_SA_BASE64 }}"
+        gcloud_service_key: "$STAGING_GCR_SA_BASE64"
         registry: gcr.io
         project_id: $STAGING_GCR_PROJECT
         image_name: ${{ github.event.inputs.image_name }}
