@@ -24,8 +24,8 @@ jobs:
   build-and-push-job:
     uses: pkaramol/test-workflows/.github/workflows/build_and_push_to_gcr.yaml@main
     with:
-      stg_image_build: "false"
-      prd_image_build: "true"
+      stg_image_build: false
+      prd_image_build: true
       image_name: echo-server
       image_tag: "1.0.2"
     secrets:
