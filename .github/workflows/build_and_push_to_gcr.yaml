@@ -49,7 +49,7 @@ jobs:
     
     - name: build and push to staging gcr
       env:
-        STAGING_GCR_SA_BASE64: $(echo -n ${{ secrets.STAGING_GCR_SA }} | base64)
+        STAGING_GCR_SA_BASE64: $(echo ${{ secrets.STAGING_GCR_SA }} | base64)
       id: stg_img_build
       uses: RafikFarhad/push-to-gcr-github-action@v4
       with:
