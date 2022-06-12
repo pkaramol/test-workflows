@@ -38,15 +38,6 @@ jobs:
 
    steps:
 
-    - name: base64 encode the staging gcr sa
-      id: base64-staging-gcr-2
-      shell: bash
-      run:
-        echo "::set-output name=STAGING_GCR_SA_BASE64::$(echo -n '${{ secrets.STAGING_GCR_SA }}' | base64)"
-
-    - name: print the base64 key
-      run: echo $STAGING_GCR_SA_BASE64
-
     - name: checkout the project
       uses: actions/checkout@v2
 
@@ -56,11 +47,17 @@ jobs:
     - name: set up gcloud
       uses: google-github-actions/setup-gcloud@v0.6.0
 
+    - name: base64 encode the staging gcr sa
+      id: base64-staging-gcr
+      shell: bash
+      run:
+        echo "::set-output name=STAGING_GCR_SA_BASE64::$(echo -n '${{ secrets.STAGING_GCR_SA }}' | base64)"
+
     - name: build and push to staging gcr
       id: stg_img_build
       uses: RafikFarhad/push-to-gcr-github-action@v4
       with:
-        gcloud_service_key: $STAGING_GCR_SA_BASE64
+        gcloud_service_key: "${{ steps.base64-staging-gcr.outputs.STAGING_GCR_SA_BASE64 }}"
         registry: gcr.io
         project_id: $STAGING_GCR_PROJECT
         image_name: ${{ github.event.inputs.image_name }}
