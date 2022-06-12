@@ -24,11 +24,11 @@ on:
 env:
   STAGING_GCR_PROJECT: noted-handler-353112
   PRODUCTION_GCR_PROJECT: production-353113
-  SLACK_WEBHOOK: https://hooks.slack.com/services/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
   SLACK_CHANNEL: sre-bots
   SLACK_USERNAME: SRE Image Builder
   SLACK_ICON_SUCCESS: ":shamrock:"
   SLACK_ICON_FAILURE: ":no_entry:"
+  SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
 
 
 jobs:
