@@ -38,6 +38,8 @@ jobs:
 
    steps:
 
+    - uses: hmarr/debug-action@v2
+
     - name: debug
       run: echo ${{ github.event.inputs.stg_image_build }}
 
@@ -85,6 +87,8 @@ jobs:
 
    steps:
 
+    - uses: hmarr/debug-action@v2
+    
     - name: debug
       run: echo ${{ github.event.inputs.prd_image_build }}
 
