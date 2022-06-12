@@ -67,8 +67,7 @@ jobs:
       SLACK_ICON: $SLACK_ICON_SUCCESS
       SLACK_COLOR: green
       SLACK_MESSAGE: "STAGING image $STAGING_IMAGE was built / pushed with SUCCESS"
-    if: steps.stg_img_build.outcome == 'success'
-
+      
   failure:
     uses: rtCamp/action-slack-notify@v2
     env:
