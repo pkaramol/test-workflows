@@ -31,7 +31,6 @@ env:
   SLACK_ICON_SUCCESS: ":shamrock:"
   SLACK_ICON_FAILURE: ":no_entry:"
   SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-  STAGING_IMAGE: "gcr.io/$STAGING_GCR_PROJECT/${{ github.event.inputs.image_name }}:${{ github.event.inputs.image_tag }}"
   PRODUCTION_IMAGE: "gcr.io/$PRODUCTION_GCR_PROJECT/${{ github.event.inputs.image_name }}:${{ github.event.inputs.image_tag }}"
 
 
@@ -76,6 +75,9 @@ jobs:
     needs: build_staging
     runs-on: ubuntu-latest
     if: ${{ always() && contains(join(needs.*.result, ','), 'success') }}
+    env:
+      STAGING_IMAGE: "gcr.io/$STAGING_GCR_PROJECT/${{ github.event.inputs.image_name }}:${{ github.event.inputs.image_tag }}"
+
     
     steps:
       
@@ -85,12 +87,16 @@ jobs:
         SLACK_ICON: $SLACK_ICON_SUCCESS
         SLACK_COLOR: green
         SLACK_MESSAGE: "STAGING image ${{ env.STAGING_IMAGE }} was built / pushed with SUCCESS"
-        
+
       
   slack_staging_failure:
     needs: build_staging
     runs-on: ubuntu-latest
     if: ${{ always() && contains(join(needs.*.result, ','), 'failure') }}
+    env:
+      STAGING_IMAGE: "gcr.io/$STAGING_GCR_PROJECT/${{ github.event.inputs.image_name }}:${{ github.event.inputs.image_tag }}"
+
+    
     
     steps:
       
