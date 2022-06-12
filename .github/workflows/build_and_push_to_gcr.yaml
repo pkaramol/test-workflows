@@ -60,7 +60,6 @@ jobs:
     - name: set staging image name
       run: echo "STAGING_IMAGE_NAME=$(echo gcr.io/$STAGING_GCR_PROJECT/${{ github.event.inputs.image_name }}:${{ github.event.inputs.image_tag }})" >> $GITHUB_ENV
 
-
   success:
     uses: rtCamp/action-slack-notify@v2
     env:
