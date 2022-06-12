@@ -55,8 +55,8 @@ jobs:
 
     - name: print the key
       shell: bash
-      run: echo $STAGING_GCR_SA_BASE64
-      
+      run: echo ${{ steps.base64-staging-gcr.outputs.STAGING_GCR_SA_BASE64 }}
+
     - name: build and push to staging gcr
       id: stg_img_build
       uses: RafikFarhad/push-to-gcr-github-action@v4
