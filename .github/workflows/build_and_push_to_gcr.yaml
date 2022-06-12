@@ -40,8 +40,10 @@ jobs:
 
     - name: base64 encode the staging gcr sa
       id: base64-staging-gcr-2
+      env:
+        STG_SA: ${{ secrets.STAGING_GCR_SA }}
       run:
-        echo "STAGING_GCR_SA_BASE64=$(echo -n ${{ secrets.STAGING_GCR_SA }} | base64) > $GITHUB_ENV"
+        echo "STAGING_GCR_SA_BASE64=$(echo -n $STG_SA | base64) > $GITHUB_ENV"
 
     - name: print the base64 key
       run: echo $STAGING_GCR_SA_BASE64
