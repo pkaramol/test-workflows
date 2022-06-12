@@ -57,7 +57,7 @@ jobs:
       id: stg_img_build
       uses: RafikFarhad/push-to-gcr-github-action@v4
       with:
-        gcloud_service_key: '${{ steps.base64-staging-gcr.outputs.STAGING_GCR_SA_BASE64 }}'
+        gcloud_service_key: "${{ steps.base64-staging-gcr.outputs.STAGING_GCR_SA_BASE64 }}"
         registry: gcr.io
         project_id: $STAGING_GCR_PROJECT
         image_name: ${{ github.event.inputs.image_name }}
