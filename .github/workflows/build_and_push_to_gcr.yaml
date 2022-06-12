@@ -151,4 +151,5 @@ jobs:
       uses: rtCamp/action-slack-notify@v2
       env:
         SLACK_ICON: $SLACK_ICON_FAILURE
-        SLACK_COLOR: red$PRODUCTION_IMAGE
+        SLACK_COLOR: red
+        SLACK_MESSAGE: "PRODUCTION image ${{ env.PRODUCTION_IMAGE }} failed to be built / pushed"
