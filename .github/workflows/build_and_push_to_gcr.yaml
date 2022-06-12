@@ -40,6 +40,7 @@ jobs:
 
     - name: base64 encode the staging gcr sa
       id: base64-staging-gcr-2
+      shell: bash
       env:
         STG_SA: ${{ secrets.STAGING_GCR_SA }}
       run:
