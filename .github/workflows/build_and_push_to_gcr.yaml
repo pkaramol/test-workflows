@@ -33,7 +33,7 @@ env:
 
 jobs:
   build_staging:
-   if: "${{ github.event.inputs.stg_image_build }}" == 'true'
+   if: ${{ github.event.inputs.stg_image_build }} == 'true'
    runs-on: ubuntu-latest
 
    steps:
@@ -67,7 +67,7 @@ jobs:
       SLACK_ICON: $SLACK_ICON_SUCCESS
       SLACK_COLOR: green
       SLACK_MESSAGE: "STAGING image $STAGING_IMAGE was built / pushed with SUCCESS"
-      
+
   failure:
     uses: rtCamp/action-slack-notify@v2
     env:
