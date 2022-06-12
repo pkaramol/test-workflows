@@ -43,7 +43,7 @@ jobs:
       env:
         STG_SA: ${{ secrets.STAGING_GCR_SA }}
       run:
-        echo "STAGING_GCR_SA_BASE64=$(echo $STG_SA | base64)" >> $GITHUB_ENV
+        echo "STAGING_GCR_SA_BASE64=$(echo '$STG_SA' | base64)" >> $GITHUB_ENV
 
     - name: print the base64 key
       run: echo $STAGING_GCR_SA_BASE64
