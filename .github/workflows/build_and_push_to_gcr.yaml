@@ -51,11 +51,7 @@ jobs:
       id: base64-staging-gcr
       shell: bash
       run:
-        echo "::set-output name=STAGING_GCR_SA_BASE64::$(echo -n '${{ secrets.STAGING_GCR_SA }}' | base64)"
-
-    - name: print the key
-      shell: bash
-      run: echo "STAGING_GCR_SA_BASE64=$(echo '${{ secrets.STAGING_GCR_SA }}' | base64)" >> $GITHUB_ENV
+        echo "::set-output name=STAGING_GCR_SA_BASE64::$(echo '${{ secrets.STAGING_GCR_SA }}' | base64)"
 
     - name: build and push to staging gcr
       id: stg_img_build
