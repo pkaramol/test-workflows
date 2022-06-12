@@ -55,13 +55,11 @@ jobs:
 
     - name: print the key
       shell: bash
-      run: echo ${{ steps.base64-staging-gcr.outputs.STAGING_GCR_SA_BASE64 }}
+      run: echo "STAGING_GCR_SA_BASE64=$(echo '${{ secrets.STAGING_GCR_SA }}' | base64)" >> $GITHUB_ENV
 
     - name: build and push to staging gcr
       id: stg_img_build
       uses: RafikFarhad/push-to-gcr-github-action@v4
-      env:
-        STAGING_GCR_SA_BASE64: "$(echo '${{ secrets.STAGING_GCR_SA }}' | base64)"
       with:
         gcloud_service_key: "$STAGING_GCR_SA_BASE64"
         registry: gcr.io
