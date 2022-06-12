@@ -50,7 +50,7 @@ jobs:
     - name: base64 encode the staging gcr sa
       id: base64-staging-gcr
       run:
-        echo "::set-output name=STAGING_GCR_SA_BASE64::$(echo secrets.STAGING_GCR_SA | python -m base64 -e)"
+        echo "::set-output name=STAGING_GCR_SA_BASE64::$(echo ${{ secrets.STAGING_GCR_SA }} | python -m base64 -e)"
 
     - name: build and push to staging gcr
       id: stg_img_build
