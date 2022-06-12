@@ -33,7 +33,7 @@ env:
 
 jobs:
   build_staging:
-   if: ${{ github.event.inputs.stg_image_build  == 'true' }}
+   if: "${{ github.event.inputs.stg_image_build }}" == 'true'
    runs-on: ubuntu-latest
 
    steps:
@@ -77,7 +77,7 @@ jobs:
       if: steps.stg_img_build.outcome != 'success'
 
   build_production:
-   if: ${{ github.event.inputs.prd_image_build  == 'true' }}
+   if: "${{ github.event.inputs.prd_image_build }}" == 'true'
    runs-on: ubuntu-latest
 
    steps:
