@@ -38,11 +38,6 @@ jobs:
 
    steps:
 
-    - uses: hmarr/debug-action@v2
-
-    - name: debug
-      run: echo ${{ github.event.inputs.stg_image_build }}
-
     - name: checkout the project
       uses: actions/checkout@v2
 
@@ -82,15 +77,10 @@ jobs:
       if: steps.stg_img_build.outcome != 'success'
 
   build_production:
-   if: ${{ github.event.inputs.prd_image_build  == true }}
+   if: ${{ github.event.inputs.prd_image_build  == 'true' }}
    runs-on: ubuntu-latest
 
    steps:
-
-    - uses: hmarr/debug-action@v2
-
-    - name: debug
-      run: echo ${{ github.event.inputs.prd_image_build }}
 
     - name: checkout the project
       uses: actions/checkout@v2
