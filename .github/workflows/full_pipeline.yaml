@@ -31,3 +31,4 @@ jobs:
     secrets:
       STAGING_GCR_SA: ${{ secrets.STAGING_GCR_SA }}
       PRODUCTION_GCR_SA: ${{ secrets.PRODUCTION_GCR_SA }}
+      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
