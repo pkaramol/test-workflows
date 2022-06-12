@@ -31,8 +31,8 @@ env:
   SLACK_ICON_SUCCESS: ":shamrock:"
   SLACK_ICON_FAILURE: ":no_entry:"
   SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-  STAGING_IMAGE: "gcr.io/${{ env.STAGING_GCR_PROJECT }}/${{ github.event.inputs.image_name }}:${{ github.event.inputs.image_tag }}"
-  PRODUCTION_IMAGE: "gcr.io/${{ env.PRODUCTION_GCR_PROJECT }}/${{ github.event.inputs.image_name }}:${{ github.event.inputs.image_tag }}"
+  STAGING_IMAGE: "gcr.io/$STAGING_GCR_PROJECT/${{ github.event.inputs.image_name }}:${{ github.event.inputs.image_tag }}"
+  PRODUCTION_IMAGE: "gcr.io/$PRODUCTION_GCR_PROJECT/${{ github.event.inputs.image_name }}:${{ github.event.inputs.image_tag }}"
 
 
 jobs:
