@@ -44,7 +44,7 @@ jobs:
       uses: docker/setup-buildx-action@v2
 
     - name: set up gcloud
-      uses: google-github-actions/setup-gcloud@master
+      uses: google-github-actions/setup-gcloud@v0.6.0
     
     - name: build and push to staging gcr
       id: stg_img_build
