@@ -31,8 +31,8 @@ env:
   SLACK_ICON_SUCCESS: ":shamrock:"
   SLACK_ICON_FAILURE: ":no_entry:"
   SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-  STAGING_IMAGE: "gcr.io/$STAGING_GCR_PROJECT/${{ github.event.inputs.stg_image_name }}:${{ github.event.inputs.stg_image_tag }}"
-  PRODUCTION_IMAGE: "gcr.io/$STAGING_GCR_PROJECT/${{ github.event.inputs.prd_image_name }}:${{ github.event.inputs.prd_image_tag }}"
+  STAGING_IMAGE: "gcr.io/${{ env.STAGING_GCR_PROJECT }}/${{ github.event.inputs.image_name }}:${{ github.event.inputs.image_tag }}"
+  PRODUCTION_IMAGE: "gcr.io/${{ env.PRODUCTION_GCR_PROJECT }}/${{ github.event.inputs.image_name }}:${{ github.event.inputs.image_tag }}"
 
 
 jobs:
@@ -133,9 +133,7 @@ jobs:
     
     steps:
       
-    - name: slack success for production
-      uses: rtCamp/action-slack-notify@v2
-      env:
+    - name: slack success for production$PRODUCTION_IMAGE
         SLACK_ICON: $SLACK_ICON_SUCCESS
         SLACK_COLOR: green
         SLACK_MESSAGE: "PRODUCTION image ${{ env.PRODUCTION_IMAGE }}  was built / pushed with SUCCESS"
@@ -151,5 +149,4 @@ jobs:
       uses: rtCamp/action-slack-notify@v2
       env:
         SLACK_ICON: $SLACK_ICON_FAILURE
-        SLACK_COLOR: red
-        SLACK_MESSAGE: "PRODUCTION image ${{ env.PRODUCTION_IMAGE }} failed to be built / pushed"
+        SLACK_COLOR: red$PRODUCTION_IMAGE
