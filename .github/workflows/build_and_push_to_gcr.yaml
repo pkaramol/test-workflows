@@ -73,3 +73,45 @@ jobs:
       SLACK_ICON: $SLACK_ICON_FAILURE
       SLACK_COLOR: red
       SLACK_MESSAGE: "STAGING image $STAGING_IMAGE failed to be built / pushed"
+
+  build_production:
+   if: ${{ github.event.inputs.prd_image_build }} == 'true'
+   runs-on: ubuntu-latest
+
+   steps:
+
+    - name: checkout the project
+      uses: actions/checkout@v2
+
+    - name: set up buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: set up gcloud
+      uses: google-github-actions/setup-gcloud@v0.6.0
+    
+    - name: build and push to production gcr
+      id: prd_img_build
+      uses: RafikFarhad/push-to-gcr-github-action@v4
+      with:
+        gcloud_service_key: ${{ secrets.PRODUCTION_GCR_SA }}
+        registry: gcr.io
+        project_id: $PRODUCTION_GCR_PROJECT
+        image_name: ${{ github.event.inputs.image_name }}
+        image_tag:  ${{ github.event.inputs.image_tag }}
+
+    - name: set production image name
+      run: echo "PRODUCTION_IMAGE_NAME=$(echo gcr.io/$PRODUCTION_GCR_PROJECT/${{ github.event.inputs.image_name }}:${{ github.event.inputs.image_tag }})" >> $GITHUB_ENV
+
+  success:
+    uses: rtCamp/action-slack-notify@v2
+    env:
+      SLACK_ICON: $SLACK_ICON_SUCCESS
+      SLACK_COLOR: green
+      SLACK_MESSAGE: "PRODUCTION $STAGING_IMAGE was built / pushed with SUCCESS"
+
+  failure:
+    uses: rtCamp/action-slack-notify@v2
+    env:
+      SLACK_ICON: $SLACK_ICON_FAILURE
+      SLACK_COLOR: red
+      SLACK_MESSAGE: "PRODUCTION $STAGING_IMAGE failed to be built / pushed"
