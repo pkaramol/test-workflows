@@ -39,7 +39,7 @@ jobs:
 
     outputs:
       staging_image_name: ${{ steps.stg.output.staging_image_name }}
-      production_image_name:  "gcr.io/$PRODUCTION_GCR_PROJECT/${{ inputs.image_name }}:${{ inputs.image_tag }}"
+      production_image_name: ${{ steps.stg.output.production_image_name }}
     steps:
     - name: set staging image name
       id: stg
