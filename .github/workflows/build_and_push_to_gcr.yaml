@@ -44,11 +44,11 @@ jobs:
     - name: set staging image name
       id: stg
       shell: bash
-      run: echo "::set-output name=staging_image_name::gcr.io/$STAGING_GCR_PROJECT/${{ inputs.image_name }}:${{ inputs.image_tag }}"
+      run: echo ::set-output name=staging_image_name::gcr.io/$STAGING_GCR_PROJECT/${{ inputs.image_name }}:${{ inputs.image_tag }}
     - name: set production image name
       id: prd
       shell: bash
-      run: echo "::set-output name=staging_image_name::gcr.io/$PRODUCTION_GCR_PROJECT/${{ inputs.image_name }}:${{ inputs.image_tag }}"
+      run: echo ::set-output name=staging_image_name::gcr.io/$PRODUCTION_GCR_PROJECT/${{ inputs.image_name }}:${{ inputs.image_tag }}
 
 
   build_staging:
