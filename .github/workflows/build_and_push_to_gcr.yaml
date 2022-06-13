@@ -53,8 +53,10 @@ jobs:
     - name: base64 encode the staging gcr sa
       id: base64-staging-gcr
       shell: bash
+      env:
+        KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
       run:
-        echo "::set-output name=STAGING_GCR_SA_BASE64::$(echo '${{ secrets.STAGING_GCR_SA }}' | base64)"
+        echo "::set-output name=STAGING_GCR_SA_BASE64::$(echo $KEYSTORE_BASE64 | base64)"
 
     - name: echo the key
       shell: bash
