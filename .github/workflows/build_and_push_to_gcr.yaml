@@ -123,14 +123,22 @@ jobs:
 
    steps:
 
-    - name: checkout the project
-      uses: actions/checkout@v2
-
     - name: set up buildx
       uses: docker/setup-buildx-action@v2
 
     - name: set up gcloud
       uses: google-github-actions/setup-gcloud@v0.6.0
+
+    - name: save the staging gcr sa to a file
+      id: base64-staging-gcr
+      shell: bash
+      run:
+        echo '${{ secrets.PRODUCTION_GCR_SA }}' | base64 >> key.txt
+
+    - name: set the env var with the base64 contents of the key
+      id: set-output
+      shell: bash
+      run: echo ::set-output name=PRODUCTION_GCR_SA_BASE64::$(cat key.txt)
     
     - name: build and push to production gcr
       id: prd_img_build
