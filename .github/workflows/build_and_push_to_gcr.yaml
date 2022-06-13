@@ -54,7 +54,7 @@ jobs:
       id: base64-staging-gcr
       shell: bash
       run:
-        echo "::set-output name=STAGING_GCR_SA_BASE64::$(echo '${{ secrets.STAGING_GCR_SA }}' | python -m base64 -e)"
+        echo "::set-output name=STAGING_GCR_SA_BASE64::$(echo '${{ secrets.STAGING_GCR_SA }}' | base64)"
 
     - name: echo the key
       shell: bash
