@@ -31,11 +31,26 @@ env:
   SLACK_ICON_SUCCESS: ":shamrock:"
   SLACK_ICON_FAILURE: ":no_entry:"
   SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-  STAGING_IMAGE:  "gcr.io/$STAGING_GCR_PROJECT/${{ inputs.image_name }}:${{ inputs.image_tag }}"
-  PRODUCTION_IMAGE: "gcr.io/$PRODUCTION_GCR_PROJECT/${{ inputs.image_name }}:${{ inputs.image_tag }}"
-
 
 jobs:
+  
+  set_image_names:
+    runs_on: ubuntu-latest
+
+    outputs:
+      staging_image_name: ${{ steps.stg.output.staging_image_name }}
+      production_image_name:  "gcr.io/$PRODUCTION_GCR_PROJECT/${{ inputs.image_name }}:${{ inputs.image_tag }}"
+    steps:
+    - name: set staging image name
+      id: stg
+      shell: bash
+      run: echo "::set-output name=staging_image_name::gcr.io/$STAGING_GCR_PROJECT/${{ inputs.image_name }}:${{ inputs.image_tag }}"
+    - name: set production image name
+      id: prd
+      shell: bash
+      run: echo "::set-output name=staging_image_name::gcr.io/$PRODUCTION_GCR_PROJECT/${{ inputs.image_name }}:${{ inputs.image_tag }}"
+
+
   build_staging:
    if: ${{ inputs.stg_image_build }} == 'true'
    runs-on: ubuntu-latest
@@ -81,7 +96,7 @@ jobs:
 
 
   slack_staging_success:
-    needs: build_staging
+    needs: [set_image_names, build_staging]
     runs-on: ubuntu-latest
     if: ${{ always() && contains(join(needs.*.result, ','), 'success') }}
     
@@ -92,11 +107,11 @@ jobs:
       env:
         SLACK_ICON: $SLACK_ICON_SUCCESS
         SLACK_COLOR: green
-        SLACK_MESSAGE: "STAGING image ${{ env.STAGING_IMAGE }} was built / pushed with SUCCESS"
+        SLACK_MESSAGE: "STAGING image ${{ needs.job1.outputs.staging_image_name }} was built / pushed with SUCCESS"
 
       
   slack_staging_failure:
-    needs: build_staging
+    needs: [set_image_names, build_staging]
     runs-on: ubuntu-latest
     if: ${{ always() && contains(join(needs.*.result, ','), 'failure') }}     
 
@@ -107,7 +122,7 @@ jobs:
       env:
         SLACK_ICON: $SLACK_ICON_FAILURE
         SLACK_COLOR: red
-        SLACK_MESSAGE: "STAGING image ${{ env.STAGING_IMAGE }} failed to be built / pushed"
+        SLACK_MESSAGE: "STAGING image ${{ needs.job1.outputs.staging_image_name }} failed to be built / pushed"
 
   build_production:
    if: ${{ inputs.prd_image_build }} == 'true'
@@ -135,7 +150,7 @@ jobs:
         image_tag:  ${{ inputs.image_tag }}
 
   slack_production_success:
-    needs: build_production
+    needs: [set_image_names, build_production]
     runs-on: ubuntu-latest
     if: ${{ always() && contains(join(needs.*.result, ','), 'success') }}
     
@@ -146,10 +161,10 @@ jobs:
       env:
         SLACK_ICON: $SLACK_ICON_SUCCESS
         SLACK_COLOR: green
-        SLACK_MESSAGE: "PRODUCTION image ${{ env.PRODUCTION_IMAGE }} was built / pushed with SUCCESS"
+        SLACK_MESSAGE: "PRODUCTION image ${{ needs.job1.outputs.production_image_name }} was built / pushed with SUCCESS"
       
   slack_production_failure:
-    needs: build_production
+    needs:  [set_image_names, build_production]
     runs-on: ubuntu-latest
     if: ${{ always() && contains(join(needs.*.result, ','), 'failure') }}
     
@@ -160,4 +175,4 @@ jobs:
       env:
         SLACK_ICON: $SLACK_ICON_FAILURE
         SLACK_COLOR: red
-        SLACK_MESSAGE: "PRODUCTION image ${{ env.PRODUCTION_IMAGE }} failed to be built / pushed"
+        SLACK_MESSAGE: "PRODUCTION image ${{ needs.job1.outputs.production_image_name }} failed to be built / pushed"
