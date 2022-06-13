@@ -77,13 +77,6 @@ jobs:
       shell: bash
       run: echo ::set-output name=STAGING_GCR_SA_BASE64::$(cat key.txt)
 
-    - name: upload artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: my-artifact
-        path: key.txt
-        retention-days: 5
-
     - name: build and push to staging gcr
       id: stg_img_build
       uses: RafikFarhad/push-to-gcr-github-action@v4
