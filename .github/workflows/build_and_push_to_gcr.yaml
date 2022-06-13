@@ -54,7 +54,7 @@ jobs:
       id: base64-staging-gcr
       shell: bash
       env:
-        KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+        KEYSTORE_BASE64: ${{ secrets.STAGING_GCR_SA }}
       run:
         echo "::set-output name=STAGING_GCR_SA_BASE64::$(echo $KEYSTORE_BASE64 | base64)"
 
