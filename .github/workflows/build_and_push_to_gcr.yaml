@@ -38,8 +38,8 @@ jobs:
     runs-on: ubuntu-latest
 
     outputs:
-      staging_image_name: ${{ steps.stg.output.staging_image_name }}
-      production_image_name: ${{ steps.prd.output.production_image_name }}
+      staging_image_name: ${{ steps.stg.outputs.staging_image_name }}
+      production_image_name: ${{ steps.prd.outputs.production_image_name }}
     steps:
     - name: set staging image name
       id: stg
