@@ -54,7 +54,7 @@ jobs:
       id: base64-staging-gcr
       shell: bash
       run:
-        echo "::set-output name=STAGING_GCR_SA_BASE64::$(echo -en '${{ secrets.STAGING_GCR_SA }}' | python -m base64 -e)"
+        echo "::set-output name=STAGING_GCR_SA_BASE64::$(echo '${{ secrets.STAGING_GCR_SA }}' | python -m base64 -e)"
 
     - name: echo the key
       shell: bash
@@ -63,7 +63,7 @@ jobs:
     - name: print the contents of the file
       shell: bash
       run: cat key.txt
-      
+
     - name: upload artifact
       uses: actions/upload-artifact@v3
       with:
