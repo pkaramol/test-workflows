@@ -74,7 +74,7 @@ jobs:
       with:
         gcloud_service_key: ${{ steps.set-output.outputs.STAGING_GCR_SA_BASE64 }}
         registry: gcr.io
-        project_id: $STAGING_GCR_PROJECT
+        project_id: ${{ env.STAGING_GCR_PROJECT }}
         image_name: ${{ inputs.image_name }}
         image_tag:  ${{ inputs.image_tag }}
 
@@ -134,7 +134,7 @@ jobs:
       with:
         gcloud_service_key: ${{ secrets.PRODUCTION_GCR_SA }}
         registry: gcr.io
-        project_id: $PRODUCTION_GCR_PROJECT
+        project_id: ${{ env.PRODUCTION_GCR_PROJECT }}
         image_name: ${{ inputs.image_name }}
         image_tag:  ${{ inputs.image_tag }}
 
