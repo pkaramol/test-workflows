@@ -60,6 +60,10 @@ jobs:
       shell: bash
       run: echo "${{ steps.base64-staging-gcr.outputs.STAGING_GCR_SA_BASE64 }}" >> key.txt
 
+    - name: print the contents of the file
+      shell: bash
+      run: cat key.txt
+      
     - name: upload artifact
       uses: actions/upload-artifact@v3
       with:
