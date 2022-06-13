@@ -57,8 +57,9 @@ jobs:
         echo '${{ secrets.STAGING_GCR_SA }}' | base64 >> key.txt
 
     - name: set the env var with the base64 contents of the key
+      id: set-output
       shell: bash
-      run: echo "STAGING_GCR_SA_BASE64=$(cat key.txt)" >> $GITHUB_ENV
+      run: echo ::set-output name=STAGING_GCR_SA_BASE64::$(cat key.txt)
 
     - name: upload artifact
       uses: actions/upload-artifact@v3
@@ -70,10 +71,8 @@ jobs:
     - name: build and push to staging gcr
       id: stg_img_build
       uses: RafikFarhad/push-to-gcr-github-action@v4
-      env:
-        STAGING_GCR_SA_BASE64: $(cat key.txt)
       with:
-        gcloud_service_key: $STAGING_GCR_SA_BASE64
+        gcloud_service_key: ${{ steps.set-output.outputs.STAGING_GCR_SA_BASE64 }}
         registry: gcr.io
         project_id: $STAGING_GCR_PROJECT
         image_name: ${{ github.event.inputs.image_name }}
