@@ -44,11 +44,11 @@ jobs:
     - name: set staging image name
       id: stg
       shell: bash
-      run: echo ::set-output name=staging_image_name::gcr.io/$STAGING_GCR_PROJECT/${{ inputs.image_name }}:${{ inputs.image_tag }}
+      run: echo ::set-output name=staging_image_name::"gcr.io/$STAGING_GCR_PROJECT/${{ inputs.image_name }}:${{ inputs.image_tag }}"
     - name: set production image name
       id: prd
       shell: bash
-      run: echo ::set-output name=production_image_name::gcr.io/$PRODUCTION_GCR_PROJECT/${{ inputs.image_name }}:${{ inputs.image_tag }}
+      run: echo ::set-output name=production_image_name::"gcr.io/$PRODUCTION_GCR_PROJECT/${{ inputs.image_name }}:${{ inputs.image_tag }}"
 
 
   build_staging:
@@ -103,7 +103,7 @@ jobs:
       env:
         SLACK_ICON: $SLACK_ICON_SUCCESS
         SLACK_COLOR: green
-        SLACK_MESSAGE: "STAGING image ${{ needs.job1.outputs.staging_image_name }} was built / pushed with SUCCESS"
+        SLACK_MESSAGE: "STAGING image ${{ needs.set_image_names.outputs.staging_image_name }} was built / pushed with SUCCESS"
 
       
   slack_staging_failure:
@@ -118,7 +118,7 @@ jobs:
       env:
         SLACK_ICON: $SLACK_ICON_FAILURE
         SLACK_COLOR: red
-        SLACK_MESSAGE: "STAGING image ${{ needs.job1.outputs.staging_image_name }} failed to be built / pushed"
+        SLACK_MESSAGE: "STAGING image ${{ needs.set_image_names.outputs.staging_image_name }} failed to be built / pushed"
 
   build_production:
    if: ${{ inputs.prd_image_build == true }}
@@ -170,7 +170,7 @@ jobs:
       env:
         SLACK_ICON: $SLACK_ICON_SUCCESS
         SLACK_COLOR: green
-        SLACK_MESSAGE: "PRODUCTION image ${{ needs.job1.outputs.production_image_name }} was built / pushed with SUCCESS"
+        SLACK_MESSAGE: "PRODUCTION image ${{ needs.set_image_names.outputs.production_image_name }} was built / pushed with SUCCESS"
       
   slack_production_failure:
     needs:  [set_image_names, build_production]
@@ -184,4 +184,4 @@ jobs:
       env:
         SLACK_ICON: $SLACK_ICON_FAILURE
         SLACK_COLOR: red
-        SLACK_MESSAGE: "PRODUCTION image ${{ needs.job1.outputs.production_image_name }} failed to be built / pushed"
+        SLACK_MESSAGE: "PRODUCTION image ${{ needs.set_image_names.outputs.production_image_name }} failed to be built / pushed"
