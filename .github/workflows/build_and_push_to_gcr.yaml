@@ -35,7 +35,7 @@ env:
 jobs:
   
   set_image_names:
-    runs_on: ubuntu-latest
+    runs-on: ubuntu-latest
 
     outputs:
       staging_image_name: ${{ steps.stg.output.staging_image_name }}
