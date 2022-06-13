@@ -52,7 +52,7 @@ jobs:
 
 
   build_staging:
-   if: ${{ inputs.stg_image_build }} == 'true'
+   if: ${{ inputs.stg_image_build  == 'true' }}
    runs-on: ubuntu-latest
 
    steps:
@@ -118,7 +118,7 @@ jobs:
         SLACK_MESSAGE: "STAGING image ${{ needs.job1.outputs.staging_image_name }} failed to be built / pushed"
 
   build_production:
-   if: ${{ inputs.prd_image_build }} == 'true'
+   if: ${{ inputs.prd_image_build == 'true' }}
    runs-on: ubuntu-latest
 
    steps:
