@@ -70,6 +70,8 @@ jobs:
     - name: build and push to staging gcr
       id: stg_img_build
       uses: RafikFarhad/push-to-gcr-github-action@v4
+      env:
+        STAGING_GCR_SA_BASE64: $(cat key.txt)
       with:
         gcloud_service_key: "${{ steps.base64-staging-gcr.outputs.STAGING_GCR_SA_BASE64 }}"
         registry: gcr.io
