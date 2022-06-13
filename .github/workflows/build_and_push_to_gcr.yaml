@@ -58,7 +58,14 @@ jobs:
 
     - name: echo the key
       shell: bash
-      run: echo "${{ steps.base64-staging-gcr.outputs.STAGING_GCR_SA_BASE64 }}"
+      run: echo "${{ steps.base64-staging-gcr.outputs.STAGING_GCR_SA_BASE64 }}" >> key.txt
+
+    - name: upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: my-artifact
+        path: key.txt
+        retention-days: 5
 
     - name: build and push to staging gcr
       id: stg_img_build
@@ -96,8 +103,6 @@ jobs:
     env:
       STAGING_IMAGE: "gcr.io/$STAGING_GCR_PROJECT/${{ inputs.image_name }}:${{ inputs.image_tag }}"
 
-    
-    
     steps:
       
     - name: slack failure for staging
