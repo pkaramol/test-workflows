@@ -83,7 +83,7 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ always() && contains(join(needs.*.result, ','), 'success') }}
     env:
-      STAGING_IMAGE: "gcr.io/${{ env.STAGING_GCR_PROJECT }}/${{ inputs.image_name }}:${{ inputs.image_tag }}"
+      STAGING_IMAGE: "gcr.io/$STAGING_GCR_PROJECT/${{ inputs.image_name }}:${{ inputs.image_tag }}"
 
     
     steps:
@@ -101,7 +101,7 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ always() && contains(join(needs.*.result, ','), 'failure') }}
     env:
-      STAGING_IMAGE: "gcr.io/${{ env.STAGING_GCR_PROJECT }}/${{ inputs.image_name }}:${{ inputs.image_tag }}"
+      STAGING_IMAGE:  "gcr.io/$STAGING_GCR_PROJECT/${{ inputs.image_name }}:${{ inputs.image_tag }}"
 
     steps:
       
