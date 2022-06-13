@@ -50,17 +50,11 @@ jobs:
     - name: set up gcloud
       uses: google-github-actions/setup-gcloud@v0.6.0
 
-    - name: base64 encode the staging gcr sa
+    - name: save the staging gcr sa to a file
       id: base64-staging-gcr
       shell: bash
-      env:
-        KEYSTORE_BASE64: ${{ secrets.STAGING_GCR_SA }}
       run:
-        echo "::set-output name=STAGING_GCR_SA_BASE64::$(echo $KEYSTORE_BASE64 | base64)"
-
-    - name: echo the key
-      shell: bash
-      run: echo "${{ steps.base64-staging-gcr.outputs.STAGING_GCR_SA_BASE64 }}" >> key.txt
+        echo ${{ secrets.STAGING_GCR_SA }} | base64 >> key.txt
 
     - name: print the contents of the file
       shell: bash
