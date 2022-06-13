@@ -56,9 +56,9 @@ jobs:
       run:
         echo '${{ secrets.STAGING_GCR_SA }}' | base64 >> key.txt
 
-    - name: print the contents of the file
+    - name: set the env var with the base64 contents of the key
       shell: bash
-      run: cat key.txt
+      run: echo "STAGING_GCR_SA_BASE64=$(cat key.txt)" >> $GITHUB_ENV
 
     - name: upload artifact
       uses: actions/upload-artifact@v3
