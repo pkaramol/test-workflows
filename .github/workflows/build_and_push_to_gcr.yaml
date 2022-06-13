@@ -31,12 +31,12 @@ env:
   SLACK_ICON_SUCCESS: ":shamrock:"
   SLACK_ICON_FAILURE: ":no_entry:"
   SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-  PRODUCTION_IMAGE: "gcr.io/$PRODUCTION_GCR_PROJECT/${{ github.event.inputs.image_name }}:${{ github.event.inputs.image_tag }}"
+  PRODUCTION_IMAGE: "gcr.io/$PRODUCTION_GCR_PROJECT/${{ inputs.image_name }}:${{ inputs.image_tag }}"
 
 
 jobs:
   build_staging:
-   if: ${{ github.event.inputs.stg_image_build }} == 'true'
+   if: ${{ inputs.stg_image_build }} == 'true'
    runs-on: ubuntu-latest
 
    steps:
@@ -75,8 +75,8 @@ jobs:
         gcloud_service_key: ${{ steps.set-output.outputs.STAGING_GCR_SA_BASE64 }}
         registry: gcr.io
         project_id: $STAGING_GCR_PROJECT
-        image_name: ${{ github.event.inputs.image_name }}
-        image_tag:  ${{ github.event.inputs.image_tag }}
+        image_name: ${{ inputs.image_name }}
+        image_tag:  ${{ inputs.image_tag }}
 
 
   slack_staging_success:
@@ -114,7 +114,7 @@ jobs:
         SLACK_MESSAGE: "STAGING image ${{ env.STAGING_IMAGE }} failed to be built / pushed"
 
   build_production:
-   if: ${{ github.event.inputs.prd_image_build }} == 'true'
+   if: ${{ inputs.prd_image_build }} == 'true'
    runs-on: ubuntu-latest
 
    steps:
@@ -135,8 +135,8 @@ jobs:
         gcloud_service_key: ${{ secrets.PRODUCTION_GCR_SA }}
         registry: gcr.io
         project_id: $PRODUCTION_GCR_PROJECT
-        image_name: ${{ github.event.inputs.image_name }}
-        image_tag:  ${{ github.event.inputs.image_tag }}
+        image_name: ${{ inputs.image_name }}
+        image_tag:  ${{ inputs.image_tag }}
 
   slack_production_success:
     needs: build_production
